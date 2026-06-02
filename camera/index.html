@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>Camera Test</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            text-align: center;
+        }
+
+        video {
+            width: 100vw;
+            height: auto;
+        }
+
+        button {
+            font-size: 24px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        canvas {
+            display: none;
+        }
+
+        img {
+            width: 300px;
+            margin-top: 10px;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <video id="video" autoplay playsinline></video>
+
+    <br>
+
+    <button id="capture">
+        撮影
+    </button>
+
+    <br>
+
+    <img id="result">
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const result = document.getElementById("result");
+
+        async function startCamera() {
+
+            try {
+
+                const stream =
+                    await navigator.mediaDevices.getUserMedia({
+                        video: true,
+                        audio: false
+                    });
+
+                video.srcObject = stream;
+
+            } catch (err) {
+
+                console.error(err);
+                alert("カメラを使用できません");
+
+            }
+        }
+
+        document.getElementById("capture").onclick = () => {
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            ctx.drawImage(
+                video,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            // 撮影画像を表示
+            result.src = canvas.toDataURL("image/png");
+        };
+
+        startCamera();
+
+    </script>
+
+</body>
+
+</html>
