@@ -1,0 +1,123 @@
+{
+    "chat" :[
+        {
+            "id" : "start",
+            "massage" : "何でも聞いてください",
+            "options" : [
+                {
+                     "text" : "部品のチェックをしたい",
+                     "next_id" : "partscheck"
+                },
+                {
+                    "text" : "わからないことを教えてほしい",
+                    "next_id" : "question"
+                }
+            ]
+        },
+        {
+             "id" : "partscheck",
+             "massage" : "どの部品をチェックしたいですか？",
+             "option" : [
+                {
+                    "text" : "リングスリーブによる電線接続",
+                    "next_id" : "kamera"
+                },
+                {
+                    "text" : "輪づくり",
+                    "next_id" : "kamera"
+                },
+                {
+                    "text" : "差し込みコネクタによる電線接続",
+                    "next_id" : "kamera"
+                },
+                {
+                    "text" : "その他",
+                    "nexa_id" : "nextpage1"
+                }
+             ]
+        },
+         {
+             "id" : "nextpage1",
+             "massage" : "どの部品をチェックしたいですか？",
+             "option" : [
+                {
+                    "text" : "リングスリーブによる電線接続",
+                    "next_id" : "kamera"
+                },
+                {
+                    "text" : "輪づくり",
+                    "next_id" : "kamera"
+                },
+                {
+                    "text" : "差し込みコネクタによる電線接続",
+                    "next_id" : "kamera"
+                },
+                {
+                    "text" : "その他",
+                    "nexa_id" : "nextpage2"
+                }
+             ]
+        },
+        {
+            "id" : "kamera",
+            "massage" : "URL"
+        },
+        {
+            "id" : "question",
+            "massage" : "何について聞きたいですか？",
+            "option" : [
+                {
+                    "text" : "輪づくりのコツについて",
+                    "next_id" : "answer"
+                },
+                {
+                    "text" : "複線図に変換するコツについて",
+                    "next_id" : "answer"
+                }
+
+            ]
+        },
+        {
+            "id" : "answer",
+            "massage" : "このサイトやアプリがおすすめだよ",
+            "next_id" :"url"
+        },
+        {
+            "id" : "good",
+            "massage" : "うまくできているよ！",
+            "option" : [
+                {
+                    "text" : "最初に戻る",
+                    "next_id" : "start"
+                }
+            ]
+        },
+        {
+            "id" : "bad",
+            "massage" : "○○がうまくできていないよ",
+            "option"  :[
+                {
+                    "text" : "参考になるサイトやアプリを紹介する？",
+                    "next_id" :"url"
+                },
+                {
+                    "text" : "最初に戻る",
+                    "next_id" : "start"
+                }
+            ]
+        },
+        {
+            "id" : "url",
+            "massage" : "これらのサイトやアプリがあるよ！",
+            "option" : [
+                {
+                    "txet" : "URL"
+                },
+                {
+                    "text" : "最初に戻る",
+                    "next_id" : "start"
+                }
+            ]
+        }
+    ]
+}
