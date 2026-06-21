@@ -40,17 +40,13 @@
     <video id="video" autoplay playsinline></video>
 
     <br>
-
     <button id="capture">
         撮影
     </button>
-
     <br>
 
     <img id="result">
-
     <canvas id="canvas"></canvas>
-
     <script>
 
         const video = document.getElementById("video");
@@ -58,47 +54,55 @@
         const ctx = canvas.getContext("2d");
         const result = document.getElementById("result");
 
+        const overlay = new Image();
+        overlay.src = "silhouette.png";
+
         async function startCamera() {
-
             try {
-
-                const stream =
-                    await navigator.mediaDevices.getUserMedia({
-                        video: true,
-                        audio: false
-                    });
-
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
                 video.srcObject = stream;
-
             } catch (err) {
-
                 console.error(err);
-                alert("カメラを使用できません");
-
+                alert("エラー: カメラを使用できません");
             }
         }
 
-        document.getElementById("capture").onclick = () => {
+        function draw() {
+            if (video.readyState >= 2) {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+                if (overlay.complete) {
+                    ctx.globalAlpha = 0.5;
+
+                    const w = canvas.width * 0.4;
+                    const h = w;
+                    ctx.drawImage(
+                        overlay,
+                        (canvas.width - w) / 2,
+                        (canvas.height - h) / 2,
+                        w,
+                        h
+                    );
+
+                    ctx.globalAlpha = 1.0;
+                }
+            }
+            requestAnimationFrame(draw);
+        }
+
+        video.addEventListener("loadedmetadata", () => {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
+            draw();
+        });
 
-            ctx.drawImage(
-                video,
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-            // 撮影画像を表示
+        document.getElementById("capture").onclick = () => {
             result.src = canvas.toDataURL("image/png");
+
         };
 
         startCamera();
-
     </script>
-
 </body>
 
 </html>
