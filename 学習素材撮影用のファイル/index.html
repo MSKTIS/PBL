@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>QR撮影</title>
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+    <div class="camera-container">
+
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+
+        <!-- QRシルエット -->
+        <img id="overlay" src="silhouette.png">
+
+    </div>
+
+    <button id="captureBtn">撮影する</button>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="camera.js"></script>
+
+</body>
+
+</html>
