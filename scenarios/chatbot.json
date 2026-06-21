@@ -1,121 +1,120 @@
 {
-    "chat" :[
+    "chat": [
         {
-            "id" : "start",
-            "massage" : "何でも聞いてください",
-            "options" : [
+            "id": "start",
+            "message": "何でも聞いてください",
+            "options": [
                 {
-                     "text" : "部品のチェックをしたい",
-                     "next_id" : "partscheck"
+                    "text": "部品のチェックをしたい",
+                    "next_id": "partscheck"
                 },
                 {
-                    "text" : "わからないことを教えてほしい",
-                    "next_id" : "question"
+                    "text": "わからないことを教えてほしい",
+                    "next_id": "question"
                 }
             ]
         },
         {
-             "id" : "partscheck",
-             "massage" : "どの部品をチェックしたいですか？",
-             "option" : [
+            "id": "partscheck",
+            "message": "どの部品をチェックしたいですか？",
+            "options": [
                 {
-                    "text" : "リングスリーブによる電線接続",
-                    "next_id" : "kamera"
+                    "text": "リングスリーブによる電線接続",
+                    "next_id": "kamera"
                 },
                 {
-                    "text" : "輪づくり",
-                    "next_id" : "kamera"
+                    "text": "輪づくり",
+                    "next_id": "kamera"
                 },
                 {
-                    "text" : "差し込みコネクタによる電線接続",
-                    "next_id" : "kamera"
+                    "text": "差し込みコネクタによる電線接続",
+                    "next_id": "kamera"
                 },
                 {
-                    "text" : "その他",
-                    "nexa_id" : "nextpage1"
-                }
-             ]
-        },
-         {
-             "id" : "nextpage1",
-             "massage" : "どの部品をチェックしたいですか？",
-             "option" : [
-                {
-                    "text" : "リングスリーブによる電線接続",
-                    "next_id" : "kamera"
-                },
-                {
-                    "text" : "輪づくり",
-                    "next_id" : "kamera"
-                },
-                {
-                    "text" : "差し込みコネクタによる電線接続",
-                    "next_id" : "kamera"
-                },
-                {
-                    "text" : "その他",
-                    "nexa_id" : "nextpage2"
-                }
-             ]
-        },
-        {
-            "id" : "kamera",
-            "massage" : "URL"
-        },
-        {
-            "id" : "question",
-            "massage" : "何について聞きたいですか？",
-            "option" : [
-                {
-                    "text" : "輪づくりのコツについて",
-                    "next_id" : "answer"
-                },
-                {
-                    "text" : "複線図に変換するコツについて",
-                    "next_id" : "answer"
-                }
-
-            ]
-        },
-        {
-            "id" : "answer",
-            "massage" : "このサイトやアプリがおすすめだよ",
-            "next_id" :"url"
-        },
-        {
-            "id" : "good",
-            "massage" : "うまくできているよ！",
-            "option" : [
-                {
-                    "text" : "最初に戻る",
-                    "next_id" : "start"
+                    "text": "その他",
+                    "nexa_id": "nextpage1"
                 }
             ]
         },
         {
-            "id" : "bad",
-            "massage" : "○○がうまくできていないよ",
-            "option"  :[
+            "id": "nextpage1",
+            "message": "どの部品をチェックしたいですか？",
+            "options": [
                 {
-                    "text" : "参考になるサイトやアプリを紹介する？",
-                    "next_id" :"url"
+                    "text": "リングスリーブによる電線接続",
+                    "next_id": "kamera"
                 },
                 {
-                    "text" : "最初に戻る",
-                    "next_id" : "start"
+                    "text": "輪づくり",
+                    "next_id": "kamera"
+                },
+                {
+                    "text": "差し込みコネクタによる電線接続",
+                    "next_id": "kamera"
+                },
+                {
+                    "text": "その他",
+                    "next_id": "nextpage2"
                 }
             ]
         },
         {
-            "id" : "url",
-            "massage" : "これらのサイトやアプリがあるよ！",
-            "option" : [
+            "id": "kamera",
+            "message": "URL"
+        },
+        {
+            "id": "question",
+            "message": "何について聞きたいですか？",
+            "options": [
                 {
-                    "txet" : "URL"
+                    "text": "輪づくりのコツについて",
+                    "next_id": "answer"
                 },
                 {
-                    "text" : "最初に戻る",
-                    "next_id" : "start"
+                    "text": "複線図に変換するコツについて",
+                    "next_id": "answer"
+                }
+            ]
+        },
+        {
+            "id": "answer",
+            "message": "このサイトやアプリがおすすめだよ",
+            "next_id": "url"
+        },
+        {
+            "id": "good",
+            "message": "うまくできているよ！",
+            "options": [
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "bad",
+            "message": "○○がうまくできていないよ",
+            "options": [
+                {
+                    "text": "参考になるサイトやアプリを紹介する？",
+                    "next_id": "url"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "url",
+            "message": "これらのサイトやアプリがあるよ！",
+            "options": [
+                {
+                    "text": "URL"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
                 }
             ]
         }
