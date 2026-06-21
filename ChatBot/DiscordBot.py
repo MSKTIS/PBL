@@ -5,7 +5,8 @@ from discord.ext import commands
 from flask import Flask, render_template
 
 # Botのリンク見たいなもん
-TOKEN = "MTUwNjE0NzE0ODY3MDk2MzgzMw.GM2nkN.dtE11qD243WcEMYcx16H-kd07KD5z-HXZ_bi48"
+# 本番ではDiscord Botのトークンを入れよう
+TOKEN = "Token"
 
 # Botに読み取り権限を付与する
 intents = discord.Intents.default()
