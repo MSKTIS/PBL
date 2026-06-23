@@ -1,3 +1,5 @@
+# モデル保存の直後などに追加
+import json
 import os
 
 import torch
@@ -37,6 +39,7 @@ train_transform = transforms.Compose(
 
 # データセット調整
 dataset = datasets.ImageFolder("dataset", transform=train_transform)
+print(dataset.classes)
 # データセット読み込み
 loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 print("classes:", dataset.classes)
@@ -48,7 +51,6 @@ num_classes = len(dataset.classes)
 
 # 最後の分類層変更
 model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
-
 model = model.to(device)
 
 
@@ -98,3 +100,7 @@ for epoch in range(EPOCHS):
 # 保存
 torch.save(model.state_dict(), "model.pth")
 print("model saved")
+
+with open("classes.json", "w") as f:
+    json.dump(dataset.classes, f)
+print("classes saved")

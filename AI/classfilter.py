@@ -1,3 +1,5 @@
+import json
+
 import torch
 import torch.nn as nn
 from PIL import Image
@@ -15,7 +17,9 @@ else:
 
 
 # クラス名
-classes = ["bad", "good"]
+with open("classes.json", "read") as f:
+    classes = json.load(f)
+num_classes = len(classes)
 
 
 # EfficientNetモデルを使用
@@ -25,8 +29,8 @@ model = models.efficientnet_b0()
 model.classifier[1] = nn.Linear(model.classifier[1].in_features, len(classes))
 
 # 学習させたモデルの読み込み
-model.load_state_dict(torch.load("model.pth", map_location=device))
 model = model.to(device)
+model.load_state_dict(torch.load("model.pth", map_location=device))
 model.eval()
 
 # 画像変換
