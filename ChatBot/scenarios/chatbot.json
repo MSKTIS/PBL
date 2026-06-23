@@ -2,11 +2,11 @@
     "chat": [
         {
             "id": "start",
-            "message": "何でも聞いてください",
+            "message": "こんにちわ。アシスタントBotのエクシーです。聞きたいことは何ですか?",
             "options": [
                 {
                     "text": "部品のチェックをしたい",
-                    "next_id": "partscheck"
+                    "next_id": "partsCheck"
                 },
                 {
                     "text": "わからないことを教えてほしい",
@@ -15,51 +15,51 @@
             ]
         },
         {
-            "id": "partscheck",
+            "id": "partsCheck",
             "message": "どの部品をチェックしたいですか？",
             "options": [
                 {
                     "text": "リングスリーブによる電線接続",
-                    "next_id": "kamera"
+                    "next_id": "camera"
                 },
                 {
                     "text": "輪づくり",
-                    "next_id": "kamera"
+                    "next_id": "camera"
                 },
                 {
                     "text": "差し込みコネクタによる電線接続",
-                    "next_id": "kamera"
+                    "next_id": "camera"
                 },
                 {
                     "text": "その他",
-                    "next_id": "nextpage1"
+                    "next_id": "nextPage1"
                 }
             ]
         },
         {
-            "id": "nextpage1",
+            "id": "nextPage1",
             "message": "どの部品をチェックしたいですか？",
             "options": [
                 {
                     "text": "リングスリーブによる電線接続",
-                    "next_id": "kamera"
+                    "next_id": "camera"
                 },
                 {
                     "text": "輪づくり",
-                    "next_id": "kamera"
+                    "next_id": "camera"
                 },
                 {
                     "text": "差し込みコネクタによる電線接続",
-                    "next_id": "kamera"
+                    "next_id": "camera"
                 },
                 {
                     "text": "その他",
-                    "next_id": "nextpage2"
+                    "next_id": "nextPage2"
                 }
             ]
         },
         {
-            "id": "kamera",
+            "id": "camera",
             "message": "URL"
         },
         {
