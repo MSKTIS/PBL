@@ -1,9 +1,11 @@
 import json
 import threading
+import time
 
 import discord
 from discord.ext import commands
 from flask import Flask, render_template
+from pyngrok import ngrok
 
 # カメラサーバー
 cameraSever = Flask(__name__)
@@ -11,13 +13,24 @@ cameraSever = Flask(__name__)
 
 @cameraSever.route("/")
 def index():
-    return render_template("camera/camera.html")
+    return render_template("../WebCamera/camera.html")
 
 
 def run_flask():
     cameraSever.run(host="0.0.0.0", port=5000)
 
 
+# flaskを接続 ( 並列処理 )
+threading.Thread(target=run_flask, daemon=True).start()
+
+# Flaskの起動待ち
+time.sleep(1)
+
+# ngrokでグローバルなurl作成
+public_url = ngrok.connect(5000).public_url
+print(f"URL: {public_url}")
+
+# discord ボット
 # Botのリンク見たいなもん
 # 本番ではDiscord Botのトークンを入れよう
 TOKEN = "KoreHaNisemonoNoToken"
@@ -26,10 +39,10 @@ TOKEN = "KoreHaNisemonoNoToken"
 intents = discord.Intents.default()
 intents.message_content = True
 
-# discord ボット
+# discordボット作成
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# 1. JSON形式の会話データを読み込み
+# JSON形式の会話データを読み込み
 with open("chatbot.json", "r", encoding="utf-8") as f:
     chatbot_data = json.load(f)
 # id別の会話データ
@@ -71,7 +84,7 @@ class ChatbotView(discord.ui.View):
             else:
                 # カメラ撮影のURL
                 if next_id == "camera":
-                    message_text += "\nhttps://example.com"
+                    message_text += f"\n{public_url}"
                 await interaction.response.send_message(message_text, ephemeral=True)
         # 会話がない時
         else:
@@ -96,7 +109,7 @@ async def on_message(message):
 
     # 選択肢ボタン作成
     view = ChatbotView(start_node["options"])
-    await message.send(start_node["message"], view=view)
+    await message.channel.send(start_node["message"], view=view)
 
 
 # discord ボット起動 (ターミナル出力)
@@ -104,9 +117,6 @@ async def on_message(message):
 async def on_ready():
     print(f"{bot.user}さんのところへログインしました")
 
-
-# 並列処理
-threading.Thread(target=run_flask).start()
 
 # Discord Botの起動・接続
 bot.run(TOKEN)
