@@ -42,7 +42,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # JSON形式の会話データを読み込み
-with open("chatbot.json", "r", encoding="utf-8") as f:
+with open("scenarios/chatbot.json", "r", encoding="utf-8") as f:
     chatbot_data = json.load(f)
 # id別の会話データ
 Nodes = {node["id"]: node for node in chatbot_data["chat"]}
