@@ -13,7 +13,7 @@ cameraSever = Flask(__name__)
 
 @cameraSever.route("/")
 def index():
-    return render_template("../WebCamera/camera.html")
+    return render_template("WebCamera/camera.html")
 
 
 def run_flask():
@@ -22,7 +22,6 @@ def run_flask():
 
 # flaskを接続 ( 並列処理 )
 threading.Thread(target=run_flask, daemon=True).start()
-
 # Flaskの起動待ち
 time.sleep(1)
 
@@ -58,7 +57,7 @@ class ChatbotView(discord.ui.View):
         for option in options:
             button = discord.ui.Button(
                 label=option["text"],
-                next_id=option.get("next_id"),
+                custom_id=option.get("next_id"),
             )
             # ボタンが押されたときの処理
             button.callback = self.button_callback
@@ -67,7 +66,7 @@ class ChatbotView(discord.ui.View):
     # ボタンが押されたときの処理
     async def button_callback(self, interaction: discord.Interaction):
         # 押されたボタンのidを取得
-        next_id = interaction.data["next_id"]
+        next_id = interaction.data["custom_id"]
 
         # 次の会話を取得
         if next_id in Nodes:
@@ -109,7 +108,9 @@ async def on_message(message):
 
     # 選択肢ボタン作成
     view = ChatbotView(start_node["options"])
-    await message.channel.send(start_node["message"], view=view)
+    await message.channel.send(f"{bot.user}さん" + message_text, view=view)
+
+    await bot.process_commands(message)
 
 
 # discord ボット起動 (ターミナル出力)
