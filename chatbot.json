@@ -1,0 +1,261 @@
+{
+    "chat": [
+        {
+            "id": "start",
+            "message": "こんにちは。アシスタントBotのエクシーです。聞きたいことは何ですか?",
+            "options": [
+                {
+                    "text": "部品のチェックをしたい",
+                    "next_id": "partsCheck"
+                },
+                {
+                    "text": "わからないことを教えてほしい",
+                    "next_id": "question"
+                },
+                {
+                    "text": "何でもない",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "partsCheck",
+            "message": "どの部品をチェックしたいですか？",
+            "options": [
+                {
+                    "text": "リングスリーブによる電線接続",
+                    "next_id": "camera1"
+                },
+                {
+                    "text": "輪づくり",
+                    "next_id": "camera2"
+                },
+                {
+                    "text": "差し込みコネクタによる電線接続",
+                    "next_id": "camera3"
+                },
+                {
+                    "text": "次のページ",
+                    "next_id": "nextPage1"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "nextPage1",
+            "message": "どの部品をチェックしたいですか？",
+            "options": [
+                {
+                    "text": "ランプレセプタクル",
+                    "next_id": "camera4"
+                },
+                {
+                    "text": "露出型コンセント",
+                    "next_id": "camera5"
+                },
+                {
+                    "text": "差し込みコネクタによる電線接続",
+                    "next_id": "camera6"
+                },
+                {
+                    "text": "一つ戻る",
+                    "next_id": "partsCheck"
+                },
+                {
+                    "text": "次のページ",
+                    "next_id": "nextPage2"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "nextPage2",
+            "message": "どの部品をチェックしたいですか？",
+            "options": [
+                {
+                    "text": "引掛シーリング",
+                    "next_id": "camera7"
+                },
+                {
+                    "text": "端子台",
+                    "next_id": "camera8"
+                },
+                {
+                    "text": "配線用遮断器",
+                    "next_id": "camera9"
+                },
+                {
+                    "text": "一つ戻る",
+                    "next_id": "nextPage1"
+                },
+                {
+                    "text": "次のページ",
+                    "next_id": "nextPage3"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "nextPage3",
+            "message": "どの部品をチェックしたいですか？",
+            "options": [
+                {
+                    "text": "連用取付枠",
+                    "next_id": "camera10"
+                },
+                {
+                    "text": "スイッチ・コンセント",
+                    "next_id": "camera11"
+                },
+                {
+                    "text": "金属管、PF管",
+                    "next_id": "camera12"
+                },
+                {
+                    "text": "一つ戻る",
+                    "next_id": "nextPage2"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "camera",
+            "message": "URL"
+        },
+        {
+            "id": "question",
+            "message": "何について聞きたいですか？",
+            "options": [
+                {
+                    "text": "圧着の長さについて",
+                    "next_id": "answer1"
+                },
+                {
+                    "text": "輪づくりのコツについて",
+                    "next_id": "answer2"
+                },
+                {
+                    "text": "複線図に変換するコツについて",
+                    "next_id": "answer3"
+                },
+                {
+                    "text": "何でもない",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "answer1",
+            "message": "「https://www.shiken.or.jp/construction/upload/handankizyun2017.pdf」の2ページにヒントがあるよ。",
+            "next_id": "url"
+        },
+        {
+            "id": "answer2",
+            "message": "「https://www.youtube.com/watch?v=cI2Qv5V8BjU」がおすすめだよ",
+            "next_id": "url"
+        },
+        {
+            "id": "answer3",
+            "message": "「https://www.hozan.co.jp/corp/denko2/pg/1figurebasic/」がおすすめだよ",
+            "next_id": "url"
+        },
+        {
+            "id": "good",
+            "message": "うまくできているよ！",
+            "options": [
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "longer_trip_bad",
+            "message": "先端が切れていないよ",
+            "options": [
+                {
+                    "text": "参考になるサイトやアプリを紹介する？",
+                    "next_id": "url"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "longer_between_bad",
+            "message": "芯線が長すぎるよ",
+            "options": [
+                {
+                    "text": "参考になるサイトやアプリを紹介する？",
+                    "next_id": "url"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "shorts_trip_bad",
+            "message": "先端が短すぎるよ",
+            "options": [
+                {
+                    "text": "参考になるサイトやアプリを紹介する？",
+                    "next_id": "url"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "shorts_between_bad",
+            "message": "芯線が短すぎるよ",
+            "options": [
+                {
+                    "text": "参考になるサイトやアプリを紹介する？",
+                    "next_id": "url"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "url",
+            "message": "これらのサイトやアプリがあるよ！",
+            "options": [
+                {
+                    "text": "webサイトはこちら「https://www.hozan.co.jp/corp/denko2/pg/1defect/」"
+                },
+                {
+                    "text": "Youtubeはこちら「https://www.youtube.com/watch?v=YaZbKgzhejo」"
+                },
+                {
+                    "text": "最初に戻る",
+                    "next_id": "start"
+                }
+            ]
+        },
+        {
+            "id": "last",
+            "message": ""
+        }
+    ]
+}
