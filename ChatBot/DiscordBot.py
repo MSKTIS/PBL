@@ -1,10 +1,12 @@
+import atexit
 import json
+import os
 import threading
 import time
 
 import discord
 from discord.ext import commands
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from pyngrok import ngrok
 
 # カメラサーバー
@@ -16,6 +18,41 @@ def index():
     return render_template("WebCamera/camera.html")
 
 
+# 撮影画像の設置場所
+SAVE_DIR = "../AI/classFilter_image"
+
+
+# 撮影画像を保存
+@cameraSever.route("/upload", methods=["POST"])
+def upload():
+    image = request.files["image"]
+
+    path = os.path.join(SAVE_DIR, "capture.png")
+    # 名前のダブリがあったら0~99で決定
+    count = 2
+    while os.path.exists(path):
+        filename = f"capture{count:02d}.png"
+        path = os.path.join(SAVE_DIR, filename)
+        count += 1
+
+    image.save(path)
+
+    return "OK", 200
+
+
+# プログラム終了時にに全削除
+def cleanup():
+    for file in os.listdir(SAVE_DIR):
+        path = os.path.join(SAVE_DIR, file)
+        if os.path.isfile(path):
+            os.remove(path)
+
+
+# 終了時
+atexit.register(cleanup)
+
+
+# flaskのポート数などを設定する関数
 def run_flask():
     cameraSever.run(host="0.0.0.0", port=5000)
 
@@ -23,13 +60,15 @@ def run_flask():
 # flaskを接続 ( 並列処理 )
 threading.Thread(target=run_flask, daemon=True).start()
 # Flaskの起動待ち
-time.sleep(1)
+time.sleep(2)
 
-# ngrokでグローバルなurl作成
+# ngrokで、公開用URLを作成
 public_url = ngrok.connect(5000).public_url
 print(f"URL: {public_url}")
 
-# discord ボット
+
+# discord ボットの処理
+
 # Botのリンク見たいなもん
 # 本番ではDiscord Botのトークンを入れよう
 TOKEN = "KoreHaNisemonoNoToken"

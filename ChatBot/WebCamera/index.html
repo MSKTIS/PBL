@@ -2,107 +2,32 @@
 <html lang="ja">
 
 <head>
-    <meta charset="utf-8">
-    <title>Camera Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-        body {
-            margin: 0;
-            background: black;
-            text-align: center;
-        }
+    <title>QR撮影</title>
 
-        video {
-            width: 100vw;
-            height: auto;
-        }
-
-        button {
-            font-size: 24px;
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        canvas {
-            display: none;
-        }
-
-        img {
-            width: 300px;
-            margin-top: 10px;
-            border: 2px solid white;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
 
-    <video id="video" autoplay playsinline></video>
+    <div class="camera-container">
 
-    <br>
-    <button id="capture">
-        撮影
-    </button>
-    <br>
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="canvas" style="display:none;"></canvas>
 
-    <img id="result">
+        <!-- QRシルエット -->
+        <img id="overlay" src="silhouette.png">
+
+    </div>
+
+    <button id="captureBtn">撮影する</button>
+
     <canvas id="canvas"></canvas>
-    <script>
 
-        const video = document.getElementById("video");
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-        const result = document.getElementById("result");
+    <script src="camera.js"></script>
 
-        const overlay = new Image();
-        overlay.src = "silhouette.png";
-
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-                video.srcObject = stream;
-            } catch (err) {
-                console.error(err);
-                alert("エラー: カメラを使用できません");
-            }
-        }
-
-        function draw() {
-            if (video.readyState >= 2) {
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                if (overlay.complete) {
-                    ctx.globalAlpha = 0.5;
-
-                    const w = canvas.width * 0.4;
-                    const h = w;
-                    ctx.drawImage(
-                        overlay,
-                        (canvas.width - w) / 2,
-                        (canvas.height - h) / 2,
-                        w,
-                        h
-                    );
-
-                    ctx.globalAlpha = 1.0;
-                }
-            }
-            requestAnimationFrame(draw);
-        }
-
-        video.addEventListener("loadedmetadata", () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            draw();
-        });
-
-        document.getElementById("capture").onclick = () => {
-            result.src = canvas.toDataURL("image/png");
-
-        };
-
-        startCamera();
-    </script>
 </body>
 
 </html>
