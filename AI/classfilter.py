@@ -1,9 +1,12 @@
 import json
+import os
 
 import torch
 import torch.nn as nn
 from PIL import Image
 from torchvision import models, transforms
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # デバイス設定
 if torch.backends.mps.is_available():
@@ -17,7 +20,9 @@ else:
 
 
 # クラス名
-with open("learning/classes.json", "r") as f:
+with open(
+    os.path.join(BASE_DIR, "learning", "classes.json"), "r", encoding="utf-8"
+) as f:
     classes = json.load(f)
 num_classes = len(classes)
 
@@ -30,7 +35,12 @@ model.classifier[1] = nn.Linear(model.classifier[1].in_features, len(classes))
 
 # 学習させたモデルの読み込み
 model = model.to(device)
-model.load_state_dict(torch.load("learning/model.pth", map_location=device))
+model.load_state_dict(
+    torch.load(
+        os.path.join(BASE_DIR, "learning", "model.pth"),
+        map_location=device,
+    )
+)
 model.eval()
 
 # 画像変換

@@ -21,14 +21,17 @@ from classfilter import predict
 
 # カメラサーバー作成
 # flaskとngrokを使用する。
-cameraSever = Flask(__name__)
+cameraSever = cameraSever = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "WebCamera"),
+    static_folder=os.path.join(BASE_DIR, "WebCamera", "static"),
+)
 
 
 @cameraSever.route("/")
 def index():
     user_id = request.args.get("user_id")
-
-    return render_template("WebCamera/camera.html", user_id=user_id)
+    return render_template("camera.html", user_id=user_id)
 
 
 # めっちゃ大事
@@ -70,7 +73,7 @@ atexit.register(cleanup)
 
 # flaskのポート数などを設定する関数
 def run_flask():
-    cameraSever.run(host="0.0.0.0", port=5000)
+    cameraSever.run(host="0.0.0.0", port=5001)
 
 
 # flaskを接続 ( 並列処理 )
@@ -79,7 +82,7 @@ threading.Thread(target=run_flask, daemon=True).start()
 time.sleep(2)
 
 # ngrokで、公開用URLを作成
-public_url = ngrok.connect(5000).public_url
+public_url = ngrok.connect(5001).public_url
 print(f"URL: {public_url}")
 
 
@@ -98,7 +101,8 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # 会話データ
 # JSON形式の会話データを読み込み
-with open("scenarios/chatbot.json", "r", encoding="utf-8") as f:
+CHATBOT_JSON = os.path.join(BASE_DIR, "scenarios", "chatbot.json")
+with open(CHATBOT_JSON, "r", encoding="utf-8") as f:
     chatbot_data = json.load(f)
 # id別の会話データ
 Nodes = {node["id"]: node for node in chatbot_data["chat"]}
@@ -111,10 +115,9 @@ class ChatbotView(discord.ui.View):
     def __init__(self, options):
         super().__init__(timeout=None)
         # id別にボタンを作る
-        for option in options:
+        for i, option in enumerate(options):
             button = discord.ui.Button(
-                label=option["text"],
-                custom_id=option.get("next_id"),
+                label=option["text"], custom_id=f"{option['next_id']}_{i}"
             )
             # ボタンが押されたときの処理
             button.callback = self.button_callback
@@ -123,7 +126,8 @@ class ChatbotView(discord.ui.View):
     # ボタンが押されたときの処理
     async def button_callback(self, interaction: discord.Interaction):
         # 押されたボタンのidを取得
-        next_id = interaction.data["custom_id"]
+        button = interaction.data["custom_id"]
+        next_id = button.rsplit("_", 1)[0]
 
         # AIで分類する時の会話
         if next_id == "predict":
