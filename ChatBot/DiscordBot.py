@@ -1,6 +1,7 @@
 import atexit
 import json
 import os
+import sys
 import threading
 import time
 
@@ -9,38 +10,54 @@ from discord.ext import commands
 from flask import Flask, render_template, request
 from pyngrok import ngrok
 
-# カメラサーバー
+# from ../AI/.  import classFile する処理
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+AI_DIR = os.path.join(BASE_DIR, "..", "AI")
+
+sys.path.insert(0, AI_DIR)
+
+from classfilter import predict
+
+# カメラサーバー作成
+# flaskとngrokを使用する。
 cameraSever = Flask(__name__)
 
 
 @cameraSever.route("/")
 def index():
-    return render_template("WebCamera/camera.html")
+    user_id = request.args.get("user_id")
 
+    return render_template("WebCamera/camera.html", user_id=user_id)
+
+
+# めっちゃ大事
+# ユーザーid毎に画像を保存する辞書配列
+user_images = {}
 
 # 撮影画像の設置場所
-SAVE_DIR = "../AI/classFilter_image"
+SAVE_DIR = os.path.join(BASE_DIR, "..", "AI", "classFilter_image")
+SAVE_DIR = os.path.abspath(SAVE_DIR)
+os.makedirs(SAVE_DIR, exist_ok=True)
 
 
 # 撮影画像を保存
 @cameraSever.route("/upload", methods=["POST"])
 def upload():
+    user_id = request.form["user_id"]
     image = request.files["image"]
 
-    path = os.path.join(SAVE_DIR, "capture.png")
-    # 名前のダブリがあったら0~99で決定
-    count = 2
-    while os.path.exists(path):
-        filename = f"capture{count:02d}.png"
-        path = os.path.join(SAVE_DIR, filename)
-        count += 1
+    # ユーザーid毎に名前決定
+    path = os.path.join(SAVE_DIR, f"{user_id}.png")
 
     image.save(path)
+
+    user_images[user_id] = path
 
     return "OK", 200
 
 
-# プログラム終了時にに全削除
+# プログラム終了時にに撮影した画像は全削除
 def cleanup():
     for file in os.listdir(SAVE_DIR):
         path = os.path.join(SAVE_DIR, file)
@@ -48,7 +65,6 @@ def cleanup():
             os.remove(path)
 
 
-# 終了時
 atexit.register(cleanup)
 
 
@@ -67,9 +83,9 @@ public_url = ngrok.connect(5000).public_url
 print(f"URL: {public_url}")
 
 
-# discord ボットの処理
+# *** discord ボットの処理 ***
 
-# Botのリンク見たいなもん
+# Botの個別番号
 # 本番ではDiscord Botのトークンを入れよう
 TOKEN = "KoreHaNisemonoNoToken"
 
@@ -80,6 +96,7 @@ intents.message_content = True
 # discordボット作成
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+# 会話データ
 # JSON形式の会話データを読み込み
 with open("scenarios/chatbot.json", "r", encoding="utf-8") as f:
     chatbot_data = json.load(f)
@@ -88,6 +105,7 @@ Nodes = {node["id"]: node for node in chatbot_data["chat"]}
 
 
 # discord ボタン機能
+# ボタンを押されると、次の会話とボタンを作成するため、再帰的な処理である
 class ChatbotView(discord.ui.View):
     # 初期化
     def __init__(self, options):
@@ -107,22 +125,50 @@ class ChatbotView(discord.ui.View):
         # 押されたボタンのidを取得
         next_id = interaction.data["custom_id"]
 
-        # 次の会話を取得
-        if next_id in Nodes:
+        # AIで分類する時の会話
+        if next_id == "predict":
+            user_id = str(interaction.user.id)
+
+            # ユーザーの番号がない場合に撮影していないとみなす。
+            # 前回の画像を分類する可能性はあり
+            if user_id not in user_images:
+                await interaction.response.send_message(
+                    "先に撮影してね。",
+                    ephemeral=True,
+                )
+                return
+
+            # 撮影した画像
+            image_path = user_images.get(user_id)
+            # 分類 (classfilter.pyの処理)
+            result = predict(image_path)
+
+            # 次のノードへ移り、ボタンを作成
+            next_node = Nodes[result["class"]]
+            new_view = ChatbotView(next_node["options"])
+            # メッセージとボタン送信
+            await interaction.response.send_message(
+                f"{result['class']}である確率は…{result['confidence']:.2%}です。\n\n {next_node['message']}",
+                view=new_view,
+                ephemeral=True,
+            )
+        # 次の会話を取得 (id"predict"ではないもの)
+        elif next_id in Nodes:
             next_node = Nodes[next_id]
             message_text = next_node["message"]
 
-            # 次の選択肢ボタンを作成
+            # 撮影する際
+            # カメラサーバーのリンクを送る
+            if next_id == "camera":
+                user_id = interaction.user.id
+                message_text += f"\n{public_url}?user_id={user_id}"
+            # 選択肢がある場合ボタン作成
             if "options" in next_node:
                 new_view = ChatbotView(next_node["options"])
                 await interaction.response.send_message(
                     message_text, view=new_view, ephemeral=True
                 )
-            # 選択肢がない場合
             else:
-                # カメラ撮影のURL
-                if next_id == "camera":
-                    message_text += f"\n{public_url}"
                 await interaction.response.send_message(message_text, ephemeral=True)
         # 会話がない時
         else:
@@ -143,7 +189,6 @@ async def on_message(message):
     # 最初の会話ID"start"を開始
     start_node = Nodes["start"]
     message_text = start_node["message"]
-    await message.channel.send(f"{bot.user}さん" + message_text)
 
     # 選択肢ボタン作成
     view = ChatbotView(start_node["options"])

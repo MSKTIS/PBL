@@ -53,18 +53,8 @@ def predict(path):
         # 活性化
         prob = torch.softmax(y, dim=1)[0]
 
-        # それぞれの確率
-        for i, p in enumerate(prob):
-            print(f"{classes[i]:15s}: {p.item():.2%}")
-
         # 分類結果とその確率
         index = prob.argmax().item()
         confidence = prob[index].item()
 
-        return classes[index], confidence
-
-
-result, confidence = predict("test.png")
-
-print(f"予測結果: {result}")
-print(f"信頼度: {confidence:.2%}")
+        return {"class": classes[index], "confidence": confidence}

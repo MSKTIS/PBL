@@ -39,7 +39,7 @@ document
         canvas.toBlob(async (blob) => {
             // 保存先データ
             const form = new FormData();
-            form.append("image", blob, "capture.png");
+            formData.append("user_id", "{{ user_id }}");
             // 
             const res = await fetch("/upload", { method: "POST", body: form });
             if (res.ok) {
