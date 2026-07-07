@@ -17,7 +17,7 @@ else:
 
 
 # クラス名
-with open("classes.json", "read") as f:
+with open("learning/classes.json", "r") as f:
     classes = json.load(f)
 num_classes = len(classes)
 
@@ -30,7 +30,7 @@ model.classifier[1] = nn.Linear(model.classifier[1].in_features, len(classes))
 
 # 学習させたモデルの読み込み
 model = model.to(device)
-model.load_state_dict(torch.load("model.pth", map_location=device))
+model.load_state_dict(torch.load("learning/model.pth", map_location=device))
 model.eval()
 
 # 画像変換
@@ -51,9 +51,20 @@ def predict(path):
     with torch.no_grad():
         y = model(x)
         # 活性化
-        prob = torch.softmax(y, dim=1)
+        prob = torch.softmax(y, dim=1)[0]
+
+        # それぞれの確率
+        for i, p in enumerate(prob):
+            print(f"{classes[i]:15s}: {p.item():.2%}")
+
         # 分類結果とその確率
-        index = prob.argmax(1).item()
-        confidence = prob[0][index].item()
+        index = prob.argmax().item()
+        confidence = prob[index].item()
 
         return classes[index], confidence
+
+
+result, confidence = predict("test.png")
+
+print(f"予測結果: {result}")
+print(f"信頼度: {confidence:.2%}")
