@@ -101,7 +101,11 @@ Press CTRL+C to quit
 #### AIモデル作成
 `AI/learning`の下に`dataset`フォルダを作成してください。
 そこにクラス毎にフォルダを作成し、学習画像を配置してください。
-`model.path`が`AI/learning`フォルダの中に作成され、`classes.json`が更新されます。
+次のコマンドを実行し、AIの学習を開始します。
+```bash
+python AI/learning/train.py
+```
+作成されたモデル`model.path`が`AI/learning`フォルダの中に作成され、`classes.json`が更新されます。
 
 ## ディレクトリ構成
 
