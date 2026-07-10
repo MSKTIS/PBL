@@ -13,8 +13,10 @@
 * **AI画像分類**: 学習済み AIモデル による画像分類
 
 ## 使用技術
+
 #### 使用言語
 * Python
+
 #### 使用ライブラリ
 * Discord.py
 * Flask
@@ -29,6 +31,7 @@
 ```bash
 pip install discord.py flask pyngrok torch torchvision pillow
 ```
+
 ## 初期設定
 
 ### Discord Bot
@@ -50,6 +53,11 @@ https://discord.com/login
 ngrok config add-authtoken <authtoken>
 ```
 
+## 実行
+```bash
+python ChatBot/DiscordBot.py
+```
+
 ## AIについて
 
 本システムでは、事前学習済みの **EfficientNet-B0** をベースとした転移学習を行っています。
@@ -64,6 +72,36 @@ ngrok config add-authtoken <authtoken>
 | `longer_between` | 線と圧着部分が長すぎる |
 | `longer_trip` | 導線の先端部分が長すぎる |
 | `short` | 線と圧着部分が短すぎる |
+
+
+# AI学習
+#### 学習素材撮影
+次のコマンドを実行してください。
+```bash
+python 学習素材撮影用のファイル/server.py
+```
+
+以下のような結果が出力されると思います。
+```bash
+ * Serving Flask app 'server'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:8000
+ * Running on https://<IPアドレス>:8000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 134-619-482
+```
+実行機と**同じWi-Fiで接続したスマホ**で`https://<IPアドレス>:8000`のページへ飛んでください。  
+警告が出ると思われますが、無視して進んでください。これで撮影を行えます。  
+撮影した画像はスマホのローカルに保存されます。  
+
+#### AIモデル作成
+`AI/learning`の下に`dataset`フォルダを作成してください。
+そこにクラス毎にフォルダを作成し、学習画像を配置してください。
+`model.path`が`AI/learning`フォルダの中に作成され、`classes.json`が更新されます。
 
 ## ディレクトリ構成
 
