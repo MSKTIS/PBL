@@ -2,7 +2,7 @@
     "chat": [
         {
             "id": "start",
-            "message": "こんにちは。アシスタントBotのエクシーです。聞きたいことは何ですか?",
+            "message": "こんにちは。アシスタントBotのエクシーです。何か聞きたいことはある？",
             "options": [
                 {
                     "text": "部品のチェックをしたい",
@@ -14,13 +14,13 @@
                 },
                 {
                     "text": "何でもない",
-                    "next_id": "start"
+                    "next_id": "nothing"
                 }
             ]
         },
         {
             "id": "partsCheck",
-            "message": "どの部品をチェックしたいですか？",
+            "message": "OK!!具体的にどの部品についてチェックしたい？",
             "options": [
                 {
                     "text": "リングスリーブによる電線接続",
@@ -46,7 +46,7 @@
         },
         {
             "id": "nextPage1",
-            "message": "どの部品をチェックしたいですか？",
+            "message": "OK!!具体的にどの部品についてチェックしたい？",
             "options": [
                 {
                     "text": "ランプレセプタクル",
@@ -76,7 +76,7 @@
         },
         {
             "id": "nextPage2",
-            "message": "どの部品をチェックしたいですか？",
+            "message": "OK!!具体的にどの部品についてチェックしたい？",
             "options": [
                 {
                     "text": "引掛シーリング",
@@ -106,7 +106,7 @@
         },
         {
             "id": "nextPage3",
-            "message": "どの部品をチェックしたいですか？",
+            "message": "OK!!具体的にどの部品についてチェックしたい？",
             "options": [
                 {
                     "text": "連用取付枠",
@@ -126,17 +126,18 @@
                 },
                 {
                     "text": "最初に戻る",
-                    "next_id": "start"
+                    "next_id": "others"
                 }
             ]
         },
         {
             "id": "camera",
+            "text":"下のURLから写真を撮ってね",
             "message": "URL"
         },
         {
             "id": "question",
-            "message": "何について聞きたいですか？",
+            "message": "何について聞きたい？",
             "options": [
                 {
                     "text": "圧着の長さについて",
@@ -152,7 +153,7 @@
                 },
                 {
                     "text": "何でもない",
-                    "next_id": "start"
+                    "next_id": "nothing"
                 }
             ]
         },
@@ -173,11 +174,15 @@
         },
         {
             "id": "good",
-            "message": "うまくできているよ！",
+            "message": "うまくできているよ！この調子で頑張ろう！",
             "options": [
                 {
                     "text": "最初に戻る",
                     "next_id": "start"
+                },
+                {
+                    "text": "ほかにも聞きたいことがある",
+                    "next_id": "others"
                 }
             ]
         },
@@ -186,26 +191,34 @@
             "message": "先端が切れていないよ",
             "options": [
                 {
-                    "text": "参考になるサイトやアプリを紹介する？",
+                    "text": "よかったら参考になるサイトやアプリなどを紹介する？",
                     "next_id": "url"
                 },
                 {
                     "text": "最初に戻る",
                     "next_id": "start"
+                },
+                {
+                    "text": "ほかにも聞きたいことがある",
+                    "next_id": "others"
                 }
             ]
         },
         {
             "id": "longer_between_bad",
-            "message": "芯線が長すぎるよ",
+            "message": "スリーブと被膜の間が長すぎるよ",
             "options": [
                 {
-                    "text": "参考になるサイトやアプリを紹介する？",
+                    "text": "よかったら参考になるサイトやアプリなどを紹介する？",
                     "next_id": "url"
                 },
                 {
                     "text": "最初に戻る",
                     "next_id": "start"
+                },
+                {
+                    "text": "ほかにも聞きたいことがある",
+                    "next_id": "others"
                 }
             ]
         },
@@ -214,32 +227,40 @@
             "message": "先端が短すぎるよ",
             "options": [
                 {
-                    "text": "参考になるサイトやアプリを紹介する？",
+                    "text": "よかったら参考になるサイトやアプリなどを紹介する？",
                     "next_id": "url"
                 },
                 {
                     "text": "最初に戻る",
                     "next_id": "start"
+                },
+                {
+                    "text": "ほかにも聞きたいことがある",
+                    "next_id": "others"
                 }
             ]
         },
         {
             "id": "shorts_between_bad",
-            "message": "芯線が短すぎるよ",
+            "message": "スリーブと被膜の間が短すぎるよ",
             "options": [
                 {
-                    "text": "参考になるサイトやアプリを紹介する？",
+                    "text": "よかったら参考になるサイトやアプリなどを紹介する？",
                     "next_id": "url"
                 },
                 {
                     "text": "最初に戻る",
                     "next_id": "start"
+                },
+                {
+                    "text": "ほかにも聞きたいことがある",
+                    "next_id": "others"
                 }
             ]
         },
         {
             "id": "url",
-            "message": "これらのサイトやアプリがあるよ！",
+            "message": "OK!!\nこんなサイトやアプリなどがあるよ！",
             "options": [
                 {
                     "text": "webサイトはこちら「https://www.hozan.co.jp/corp/denko2/pg/1defect/」"
@@ -250,12 +271,22 @@
                 {
                     "text": "最初に戻る",
                     "next_id": "start"
+                },
+                {
+                    "text": "ほかにも聞きたいことがある",
+                    "next_id": "others"
                 }
             ]
         },
         {
-            "id": "last",
-            "message": ""
+            "id": "nothing",
+            "message": "チェックしたいものや聞きたいことがあればいつでも相談してね！",
+            "next_id": "start"
+        },
+        {
+            "id": "others",
+            "message": "OK!!ほかに何か聞きたいことがあれば教えてね！！",
+            "next_id": "partsCheck"
         }
     ]
 }
