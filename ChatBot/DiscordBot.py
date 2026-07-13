@@ -107,6 +107,15 @@ with open(CHATBOT_JSON, "r", encoding="utf-8") as f:
 # id別の会話データ
 Nodes = {node["id"]: node for node in chatbot_data["chat"]}
 
+# start以外に「最初の会話に戻る」ボタンを追加
+for node_id, node in Nodes.items():
+    if node_id == "start":
+        continue
+
+    # optionsがあるものにはボタンを追加
+    if "options" in node:
+        node["options"].append({"text": "最初の会話に戻る", "next_id": "start"})
+
 
 # discord ボタン機能
 # ボタンを押されると、次の会話とボタンを作成するため、再帰的な処理である
