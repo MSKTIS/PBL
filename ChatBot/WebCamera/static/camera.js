@@ -37,11 +37,16 @@ document
 
         // ダウンロード
         canvas.toBlob(async (blob) => {
-            // 保存先データ
             const form = new FormData();
-            formData.append("user_id", "{{ user_id }}");
-            // 
-            const res = await fetch("/upload", { method: "POST", body: form });
+
+            form.append("image", blob, "capture.png");
+            form.append("user_id", USER_ID);
+
+            const res = await fetch("/upload", {
+                method: "POST",
+                body: form
+            });
+
             if (res.ok) {
                 alert("保存しました");
             }

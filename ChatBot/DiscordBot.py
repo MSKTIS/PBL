@@ -21,17 +21,17 @@ from classfilter import predict
 
 # カメラサーバー作成
 # flaskとngrokを使用する。
-cameraSever = cameraSever = Flask(
+cameraServer = cameraServer = Flask(
     __name__,
     template_folder=os.path.join(BASE_DIR, "WebCamera"),
     static_folder=os.path.join(BASE_DIR, "WebCamera", "static"),
 )
 
 
-@cameraSever.route("/")
+@cameraServer.route("/")
 def index():
     user_id = request.args.get("user_id")
-    return render_template("camera.html", user_id=user_id)
+    return render_template("index.html", user_id=user_id)
 
 
 # めっちゃ大事
@@ -45,7 +45,7 @@ os.makedirs(SAVE_DIR, exist_ok=True)
 
 
 # 撮影画像を保存
-@cameraSever.route("/upload", methods=["POST"])
+@cameraServer.route("/upload", methods=["POST"])
 def upload():
     user_id = request.form["user_id"]
     image = request.files["image"]
@@ -73,7 +73,7 @@ atexit.register(cleanup)
 
 # flaskのポート数などを設定する関数
 def run_flask():
-    cameraSever.run(host="0.0.0.0", port=5001)
+    cameraServer.run(host="0.0.0.0", port=5001)
 
 
 # flaskを接続 ( 並列処理 )
@@ -172,7 +172,7 @@ class ChatbotView(discord.ui.View):
 
             # 撮影する際
             # カメラサーバーのリンクを送る
-            if next_id == "camera":
+            if next_id == "圧着_カメラ":
                 user_id = interaction.user.id
                 message_text += f"\n{public_url}?user_id={user_id}"
             # 選択肢がある場合ボタン作成

@@ -7,7 +7,7 @@
 
     <title>QR撮影</title>
 
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href=" {{ url_for('static', filename='index.css' ) }}">
 </head>
 
 <body>
@@ -18,15 +18,18 @@
         <canvas id="canvas" style="display:none;"></canvas>
 
         <!-- QRシルエット -->
-        <img id="overlay" src="silhouette.png">
+        <img id="overlay" src="{{ url_for('static', filename='silhouette.png') }}">
 
     </div>
 
     <button id="captureBtn">撮影する</button>
 
     <canvas id="canvas"></canvas>
+    <script>
+        const USER_ID = "{{ user_id }}";
+    </script>
 
-    <script src="camera.js"></script>
+    <script src="{{ url_for('static', filename='camera.js') }}"></script>
 
 </body>
 
