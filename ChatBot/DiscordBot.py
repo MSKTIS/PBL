@@ -158,11 +158,9 @@ class ChatbotView(discord.ui.View):
 
             # 次のノードへ移り、ボタンを作成
             next_node = Nodes[result["class"]]
-            new_view = ChatbotView(next_node["options"])
             # メッセージとボタン送信
             await interaction.response.send_message(
                 f"{result['class']}である確率は…{result['confidence']:.2%}です。\n\n {next_node['message']}",
-                view=new_view,
                 ephemeral=True,
             )
         # 次の会話を取得 (id"predict"ではないもの)
