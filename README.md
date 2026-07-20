@@ -15,15 +15,18 @@
 ## 使用技術
 
 #### 使用言語
-* Python
+* `Python`
 
 #### 使用ライブラリ
-* Discord.py
-* Flask
-* pyngrok
-* PyTorch
-* TorchVision
-* Pillow
+* `Discord.py`
+* `Flask`
+* `pyngrok`
+* `PyTorch`
+* `TorchVision`
+* `Pillow`
+
+#### 使用ツール
+* `ngrok`
 
 ## インストール
 
@@ -31,14 +34,17 @@
 ```bash
 pip install discord.py flask pyngrok torch torchvision pillow
 ```
+### ngrok
+公式ドキュメントを参照してインストールしてください。  
+https://ngrok.com/download
 
 ## 初期設定
 
 ### Discord Bot
-1. Discordにてアカウント登録を行なってください。
-https://discord.com/login
+1. Discordにてアカウント登録を行なってください。  
+   https://discord.com/login
 
-2. Discord Developer Portal で Botを作成します。
+2. Discord Developer Portal で Botを作成します。  
    https://discord.com/developers/home
 
 3. `ChatBot/DiscordBot.py` の`93行目`に作成したBotのトークンを書き込んでください。
@@ -69,12 +75,12 @@ python ChatBot/DiscordBot.py
 | クラス | 状態 |
 |--------|------|
 | `good` | 成功 |
-| `longer_between` | 線と圧着部分が長すぎる |
+| `longer_between` | 線と圧着部分の間が長すぎる |
 | `longer_trip` | 導線の先端部分が長すぎる |
-| `short` | 線と圧着部分が短すぎる |
+| `short` | 線と圧着部分の間が短すぎる |
 
 
-# AI学習
+## AI学習
 #### 学習素材撮影
 次のコマンドを実行してください。
 ```bash
@@ -99,13 +105,22 @@ Press CTRL+C to quit
 撮影した画像はスマホのローカルに保存されます。  
 
 #### AIモデル作成
-`AI/learning`の下に`dataset`フォルダを作成してください。
-そこにクラス毎にフォルダを作成し、学習画像を配置してください。
+`AI/learning`配下に`dataset`フォルダを作成し、その中にクラス名ごとのフォルダを作成してください。
+```text
+learning/ 
+├──dataset/
+│   ├── good/
+│   ├── longer_between/
+│   ├── longer_trip/
+│   └── short/
+```
+それぞれのフォルダに学習画像を配置してください。
+  
 次のコマンドを実行し、AIの学習を開始します。
 ```bash
 python AI/learning/train.py
 ```
-作成されたモデル`model.path`が`AI/learning`フォルダの中に作成され、`classes.json`が更新されます。
+作成されたモデル`model.pth`が`AI/learning`フォルダの中に作成され、`classes.json`が更新されます。
 
 ## ディレクトリ構成
 
